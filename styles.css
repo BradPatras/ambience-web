@@ -1,16 +1,141 @@
-/* Basic styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+:root {
+	--space-purple-black: rgba(28, 25, 35, 0.8);
+	--space-blue-black: rgba(41, 50, 78, 0.8);
+	--space-purple: rgba(38, 13, 79, 1);
+	--space-blue: #102b4a;
+	--persian-green: #1b998bff;
+	--mountbatten-pink: #8e7c93ff;
+	--engineering-orange: #c03221ff;
+	--almond: #e5d4c0ff;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	position: relative;
+	z-index: 1;
 }
 
 h1 {
-    color: #333;
-    padding: 2rem;
+	font-family: Verdana, sans-serif;
+	line-height: 2;
+	background: transparent;
+	flex: 1;
+	text-align: center;
+	color: var(--persian-green);
+	padding: 2rem;
+	opacity: 0.5;
+}
+
+.bg1 {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: radial-gradient(circle,
+			var(--space-purple-black) 0%,
+			var(--space-blue-black) 50%,
+			var(--space-purple-black) 100%);
+	background-size: 5000px 5000px;
+	animation: bg1 14s linear infinite;
+	z-index: -1;
+	opacity: 0.6;
+}
+
+.bg2 {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(to right,
+			var(--space-purple-black) 0%,
+			var(--space-blue-black) 12.5%,
+			var(--space-purple-black) 25%,
+			var(--space-blue-black) 37.5%,
+			var(--space-purple-black) 50%,
+			var(--space-blue-black) 62.5%,
+			var(--space-purple-black) 75%,
+			var(--space-blue-black) 87.5%,
+			var(--space-purple-black) 100%);
+	background-size: 5000px 100%;
+	animation: bg2 18s linear infinite;
+	z-index: -1;
+	opacity: 0.6;
+}
+
+.bg3 {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: radial-gradient(circle,
+			var(--space-purple-black) 0%,
+			var(--space-blue-black) 50%,
+			var(--space-purple-black) 100%);
+	background-size: 5000px 5000px;
+	animation: bg1 8s linear infinite;
+	z-index: -1;
+	opacity: 0.6;
+}
+
+.bg4 {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: radial-gradient(circle,
+			var(--space-purple-black) 0%,
+			var(--space-blue-black) 50%,
+			var(--space-purple-black) 100%);
+	background-size: 5000px 100%;
+	animation: bg3 20s linear infinite;
+	z-index: -1;
+	opacity: 0.4;
+}
+
+body {
+	background: black;
+}
+
+@keyframes bg1 {
+	0% {
+		background-position-x: 0px;
+		background-position-y: 0px;
+	}
+
+	100% {
+		background-position-x: 5000px;
+		background-position-y: 5000px;
+	}
+}
+
+@keyframes bg2 {
+	0% {
+		background-position-x: 0px;
+	}
+
+	100% {
+		background-position-x: 5000px;
+	}
+}
+
+@keyframes bg3 {
+	0% {
+		background-position-y: 0px;
+	}
+
+	100% {
+		background-position-y: 5000px;
+	}
 }
