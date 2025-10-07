@@ -142,7 +142,7 @@ document.getElementById('toggle-sound').addEventListener('click', function () {
 		// Oscillator: a simple sine wave at the chosen scale degree
 		oscillator = new OscillatorNode(ac, {
 			type: 'sine',
-			frequency: scale.A1
+			frequency: scale.C1
 		});
 		// OLD: pitch-modulation LFO (kept commented for comparison)
 		/*
