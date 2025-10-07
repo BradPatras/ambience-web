@@ -1,6 +1,6 @@
 :root {
-	--space-purple-black: rgba(28, 25, 35, 0.8);
-	--space-blue-black: rgba(52, 60, 87, 0.8);
+	--space-purple-black: hsl(266, 24%, 11%);
+	--space-blue-black: hsl(227, 20%, 36%);
 	--space-purple: rgba(38, 13, 79, 1);
 	--space-blue: #102b4a;
 	--persian-green: #1b998bff;
@@ -106,6 +106,53 @@ h1 {
 
 body {
 	background: black;
+}
+
+.controls {
+	position: fixed;
+	right: 1rem;
+	top: 4rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	padding: 0.75rem 1rem;
+	background: rgba(0, 0, 0, 0.35);
+	border-radius: 8px;
+	backdrop-filter: blur(6px);
+	color: #fff;
+	z-index: 2;
+	min-width: 200px;
+}
+
+.control {
+	display: flex;
+	flex-direction: column;
+	gap: 0.35rem;
+	padding: 0.25rem 0;
+}
+
+.control label {
+	font-size: 0.85rem;
+	opacity: 0.95;
+}
+
+.control input[type="range"] {
+	width: 100%;
+}
+
+.controls button {
+	width: 100%;
+	padding: 0.5rem 0.75rem;
+	border-radius: 6px;
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+	color: #fff;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	cursor: pointer;
+	font-size: 0.95rem;
+}
+
+.controls button:active {
+	transform: translateY(1px);
 }
 
 @keyframes bg1 {
