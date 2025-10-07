@@ -3,18 +3,9 @@ let oscillator, isPlaying;
 let lfoOsc = null;
 let lfoGain = null;
 
-// The `scale` object maps human-readable note names to their frequencies
-// (in Hz). Using named properties makes it easy to pick a pitch for the
-// oscillator without memorizing numeric values. These frequencies are
-// standard pitch values (equal-tempered tuning).
 const scale = {
-	// Lowered root for a deep bass feel. A1 is ~55 Hz.
-	A1: 34.00,
-	// Other scale degrees used for musical intervals.
-	CSharp2: 69.30,
-	D2: 73.42,
-	E2: 82.41,
-	GSharp2: 103.83
+	// Lowered root for a deep bass feel. C1 is ~32.70 Hz.
+	C1: 32.70,
 };
 
 // Create a single AudioContext used for all nodes. Most browsers require
