@@ -3,9 +3,13 @@ let oscillator, isPlaying;
 let lfoOsc = null;
 let lfoGain = null;
 
+// Pink noise LFO variables (separate from main LFO)
+let pinkLfoOsc = null;
+let pinkLfoGain = null;
+
 const scale = {
 	// Lowered root for a deep bass feel. C1 is ~32.70 Hz.
-	C1: 32.70,
+	Eb1: 38.90,
 };
 
 // Create a single AudioContext used for all nodes. Most browsers require
@@ -27,6 +31,15 @@ let masterGainNode = null;
 const lfoRateSlider = document.getElementById('lfo-rate');
 const lfoDepthSlider = document.getElementById('lfo-depth');
 const pinkNoiseGainSlider = document.getElementById('pink-noise-gain');
+const pinkLfoRateSlider = document.getElementById('pink-lfo-rate');
+const pinkLfoDepthSlider = document.getElementById('pink-lfo-depth');
+
+// Get value display elements
+const lfoRateValue = document.getElementById('lfo-rate-value');
+const lfoDepthValue = document.getElementById('lfo-depth-value');
+const pinkNoiseGainValue = document.getElementById('pink-noise-gain-value');
+const pinkLfoRateValue = document.getElementById('pink-lfo-rate-value');
+const pinkLfoDepthValue = document.getElementById('pink-lfo-depth-value');
 
 // Expose pinkNoiseGain so the slider can update it even before playback
 let pinkNoiseGainNode = null;
@@ -37,22 +50,43 @@ if (lfoRateSlider) {
 	lfoRateSlider.addEventListener('input', (e) => {
 		const v = parseFloat(e.target.value);
 		if (lfoOsc) lfoOsc.frequency.setValueAtTime(v, ac.currentTime);
+		if (lfoRateValue) lfoRateValue.textContent = v.toFixed(2);
 	});
 }
 
 if (lfoDepthSlider) {
-	lfoDepthSlider.value = 0.1;
+	lfoDepthSlider.value = 0.06;
 	lfoDepthSlider.addEventListener('input', (e) => {
 		const v = parseFloat(e.target.value);
 		if (lfoGain) lfoGain.gain.setValueAtTime(v, ac.currentTime);
+		if (lfoDepthValue) lfoDepthValue.textContent = v.toFixed(2);
 	});
 }
 
 if (pinkNoiseGainSlider) {
-	pinkNoiseGainSlider.value = 0.1;
+	pinkNoiseGainSlider.value = 0.015;
 	pinkNoiseGainSlider.addEventListener('input', (e) => {
 		const v = parseFloat(e.target.value);
 		if (pinkNoiseGainNode) pinkNoiseGainNode.gain.setValueAtTime(v, ac.currentTime);
+		if (pinkNoiseGainValue) pinkNoiseGainValue.textContent = v.toFixed(3);
+	});
+}
+
+if (pinkLfoRateSlider) {
+	pinkLfoRateSlider.value = 0.10;
+	pinkLfoRateSlider.addEventListener('input', (e) => {
+		const v = parseFloat(e.target.value);
+		if (pinkLfoOsc) pinkLfoOsc.frequency.setValueAtTime(v, ac.currentTime);
+		if (pinkLfoRateValue) pinkLfoRateValue.textContent = v.toFixed(2);
+	});
+}
+
+if (pinkLfoDepthSlider) {
+	pinkLfoDepthSlider.value = 0.005;
+	pinkLfoDepthSlider.addEventListener('input', (e) => {
+		const v = parseFloat(e.target.value);
+		if (pinkLfoGain) pinkLfoGain.gain.setValueAtTime(v, ac.currentTime);
+		if (pinkLfoDepthValue) pinkLfoDepthValue.textContent = v.toFixed(3);
 	});
 }
 
@@ -127,6 +161,16 @@ document.getElementById('toggle-sound').addEventListener('click', function () {
 			lfoGain.disconnect();
 			lfoGain = null;
 		}
+		// stop and disconnect pink noise LFO
+		if (pinkLfoOsc) {
+			try { pinkLfoOsc.stop(); } catch (e) { }
+			pinkLfoOsc.disconnect();
+			pinkLfoOsc = null;
+		}
+		if (pinkLfoGain) {
+			pinkLfoGain.disconnect();
+			pinkLfoGain = null;
+		}
 		if (pinkNoise) pinkNoise.stop();
 		isPlaying = false;
 	} else {
@@ -142,7 +186,7 @@ document.getElementById('toggle-sound').addEventListener('click', function () {
 		// Oscillator: a simple sine wave at the chosen scale degree
 		oscillator = new OscillatorNode(ac, {
 			type: 'sine',
-			frequency: scale.C1
+			frequency: scale.Eb1
 		});
 		// OLD: pitch-modulation LFO (kept commented for comparison)
 		/*
@@ -164,7 +208,7 @@ document.getElementById('toggle-sound').addEventListener('click', function () {
 		// Read initial LFO settings from sliders (if present) so the
 		// UI matches the runtime behavior.
 		const lfoRate = lfoRateSlider ? parseFloat(lfoRateSlider.value) : 0.2; // Hz
-		const lfoDepth = lfoDepthSlider ? parseFloat(lfoDepthSlider.value) : 0.1; // gain units
+		const lfoDepth = lfoDepthSlider ? parseFloat(lfoDepthSlider.value) : 0.06; // gain units
 		lfoOsc = new OscillatorNode(ac, { type: 'sine', frequency: lfoRate });
 		lfoGain = new GainNode(ac, { gain: lfoDepth });
 		// Connect LFO -> LFO Gain -> masterGainNode.gain (audio-rate modulation)
@@ -186,6 +230,18 @@ document.getElementById('toggle-sound').addEventListener('click', function () {
 		if (pinkNoiseGainSlider) {
 			pinkNoiseGainNode.gain.setValueAtTime(parseFloat(pinkNoiseGainSlider.value), ac.currentTime);
 		}
+
+		// Create pink noise LFO (separate from main LFO)
+		// Read initial pink LFO settings from sliders (if present)
+		const pinkLfoRate = pinkLfoRateSlider ? parseFloat(pinkLfoRateSlider.value) : 0.10;
+		const pinkLfoDepth = pinkLfoDepthSlider ? parseFloat(pinkLfoDepthSlider.value) : 0.005;
+		pinkLfoOsc = new OscillatorNode(ac, { type: 'sine', frequency: pinkLfoRate });
+		pinkLfoGain = new GainNode(ac, { gain: pinkLfoDepth + 0.05 });
+		// Connect pink LFO -> pink LFO Gain -> pinkNoiseGainNode.gain
+		pinkLfoOsc.connect(pinkLfoGain);
+		pinkLfoGain.connect(pinkNoiseGainNode.gain);
+		pinkLfoOsc.start();
+
 		pinkNoise = ac.createPinkNoise();
 		pinkNoise.connect(pinkNoiseGainNode);
 		// Connect pink noise directly to output (bypassing masterGainNode)

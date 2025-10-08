@@ -131,9 +131,24 @@ body {
 	padding: 0.25rem 0;
 }
 
+.control-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
 .control label {
 	font-size: 0.85rem;
 	opacity: 0.95;
+}
+
+.control-header span {
+	font-size: 0.8rem;
+	opacity: 0.8;
+	font-family: monospace;
+	background: rgba(255, 255, 255, 0.1);
+	padding: 0.1rem 0.3rem;
+	border-radius: 3px;
 }
 
 .control input[type="range"] {

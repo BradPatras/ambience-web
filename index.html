@@ -16,16 +16,39 @@
 	<div class="controls">
 		<button id="toggle-sound">Toggle Sound</button>
 		<div class="control">
-			<label for="lfo-rate">LFO Rate (Hz)</label>
-			<input id="lfo-rate" type="range" min="0.01" max="1" step="0.01" value="0.2">
+			<div class="control-header">
+				<label for="lfo-rate">LFO Rate (Hz)</label>
+				<span id="lfo-rate-value">0.2</span>
+			</div>
+			<input id="lfo-rate" type="range" min="0.01" max="1" step="0.001" value="0.2">
 		</div>
 		<div class="control">
-			<label for="lfo-depth">LFO Depth (gain)</label>
-			<input id="lfo-depth" type="range" min="0" max="0.5" step="0.01" value="0.1">
+			<div class="control-header">
+				<label for="lfo-depth">LFO Depth (gain)</label>
+				<span id="lfo-depth-value">0.06</span>
+			</div>
+			<input id="lfo-depth" type="range" min="0" max="0.5" step="0.001" value="0.06">
 		</div>
 		<div class="control">
-			<label for="pink-noise-gain">Pink Noise Gain</label>
-			<input id="pink-noise-gain" type="range" min="0" max="1" step="0.01" value="0.1">
+			<div class="control-header">
+				<label for="pink-noise-gain">Pink Noise Gain</label>
+				<span id="pink-noise-gain-value">0.015</span>
+			</div>
+			<input id="pink-noise-gain" type="range" min="0" max="0.1" step="0.001" value="0.015">
+		</div>
+		<div class="control">
+			<div class="control-header">
+				<label for="pink-lfo-rate">Pink LFO Rate (Hz)</label>
+				<span id="pink-lfo-rate-value">0.10</span>
+			</div>
+			<input id="pink-lfo-rate" type="range" min="0.01" max="1" step="0.01" value="0.10">
+		</div>
+		<div class="control">
+			<div class="control-header">
+				<label for="pink-lfo-depth">Pink LFO Depth (gain)</label>
+				<span id="pink-lfo-depth-value">0.005</span>
+			</div>
+			<input id="pink-lfo-depth" type="range" min="0" max="0.1" step="0.005" value="0.005">
 		</div>
 	</div>
 	<script src="script.js"></script>
